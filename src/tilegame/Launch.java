@@ -11,8 +11,8 @@ public class Launch {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		Game game = new Game("Test", 1280); //Creates window size and title
-		game.run(); //Starts game
+		Engine engine = new Engine("Test", 1280); //Creates window size and title
+		engine.run(); //Starts game
 	}
 	
 }

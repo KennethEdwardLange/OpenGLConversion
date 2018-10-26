@@ -2,11 +2,13 @@ package tilegame.glgfx;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.lwjgl.util.Color;
 import org.lwjgl.util.ReadableColor;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -20,6 +22,26 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class Graphics {
 	
+	private TrueTypeFont font;
+	private Font awtFont;
+	/**
+	 * This Method sets the font of the desired texture to be printed to screen.
+	 * @param font
+	 */
+	public void setFont(Font font) {
+		if (awtFont == font) return;
+		awtFont = font;
+		this.font = new TrueTypeFont(awtFont, false);
+	}
+	/**
+	 * This method takes in a string and an x and y coordinates then draws that string to the screen.
+	 * @param string
+	 * @param x
+	 * @param y
+	 */
+	public void drawString(String string, float x, float y) {
+		font.drawString(x, y, string);
+	}
 	/**
 	 * Sets this graphics context's current color to the specified color.
 	 * All subsequent graphics operations using this graphics context use this specified color.
@@ -35,6 +57,17 @@ public class Graphics {
 	 */
 	public void setColor(ReadableColor c) {
 		glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+	}
+	/**
+	 * Sets this graphics context's current color to the specified color code RGBA.
+	 * All subsequent graphics operations using this graphics context use this specified color.
+	 * @param Red
+	 * @param Green
+	 * @param Blue
+	 * @param Alpha
+	 */
+	public void setColor(double Red, double Green, double Blue, double Alpha) {
+		glColor4d(Red, Green, Blue, Alpha);
 	}
 	/**
 	 * Draws a line, using the current color, between the points (x1, y1) and (x2, y2) in this graphics context's coordinate system.
@@ -115,25 +148,33 @@ public class Graphics {
 		glLoadIdentity();
 	}
 	
-	//Still trying to fix
-	//---------------------------------------------------------------------------------------------------------------
+	/**
+	 * This method can load any image file type (.jpeg, .png, etc.) from a path using the file type to understand what kind of picture it is trying to learn.
+	 * @param path
+	 * @param fileType
+	 * @return
+	 */
 	public Texture loadImage(String path, String fileType){
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
 		try {
 			tex = TextureLoader.getTexture(fileType, in);
 		} catch (IOException e) {
+			
 			e.printStackTrace();
 			System.err.println("unable to load image");
 		}
 		System.out.println("loadImage() finished");
 		return tex;
 	}
-	
-	public Texture QuickLoad(String name) {
+	/**
+	 * This method is an extended method that directly uses loadImage to load a PNG and return it to the caller.
+	 * @param name
+	 * @return
+	 */
+	public Texture QuickLoadPNG(String name) {
 		Texture tex = null;
 		tex = loadImage("res/"+name+".png", "PNG");
 		return tex;
-	}	
-	//---------------------------------------------------------------------------------------------------------------
+	}
 }

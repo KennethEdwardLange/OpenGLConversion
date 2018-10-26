@@ -30,6 +30,7 @@ public class EngineDisplay {
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 1, -1); //1 and -1 make this a 2 dimensional view
 		glMatrixMode(GL_MODELVIEW);
+		glEnable(GL_TEXTURE_2D);
 	}
 	
 }
